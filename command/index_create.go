@@ -21,12 +21,25 @@ func IndexCreateCmd() *cobra.Command {
 			connStr := viper.GetString("dbconn")
 			apiKey := viper.GetString("apikey")
 			client := openai.NewClient(apiKey)
-			err := index.CreateIndex(client, driverName, connStr, lang)
+			path, err := path.GetIndexFilePath()
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "error: %v", err)
 				return
 			}
-			path, err := path.GetIndexFilePath()
+			// check if index file already exists
+			_, err = os.Stat(path)
+			if err == nil {
+				// read line from stdin
+				fmt.Printf("index file already exists. overwrite? [y/N]: ")
+				var input string
+				fmt.Scanln(&input)
+				if input != "y" {
+					fmt.Println("canceled.")
+					return
+				}
+			}
+
+			err = index.CreateIndex(client, driverName, connStr, lang)
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "error: %v", err)
 				return
