@@ -1,15 +1,13 @@
-natuql automatically converts natural language inputs to sql and query to a database using the sql.
+natuql enables you to query databases using natural language queries.
 
-This tool is proof of concept. Do not use in production.
+This tool is a proof of concept. Do not use in production.
 
 ## Features
 
-  - support language: Japanese, Chinese, French
+ - query databases using natural language.
+ - supported language: Japanese, Chinese, French
+ - supported database: MySQL only
  
-## Limitation
-
- - support MySQL only.
-
 ## Install
 
 ```bash
@@ -69,3 +67,4 @@ language=Japanese
 # Default: 8
 context-tables-count=8
 ```
+
