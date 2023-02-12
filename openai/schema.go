@@ -37,5 +37,9 @@ create table drinks(
 %s
 """
 `, ddl)
-	return client.Complete(prompt)
+	result, err := client.Complete(prompt)
+	if err != nil {
+		return "", err
+	}
+	return result.ResponseText, nil
 }

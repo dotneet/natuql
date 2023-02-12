@@ -18,7 +18,7 @@ func CreateIndex(client *openai.Client, driverName string, connStr string) error
 		return err
 	}
 
-	indexFilePath, err := getIndexFilePath()
+	indexFilePath, err := GetIndexFilePath()
 	if err != nil {
 		return err
 	}

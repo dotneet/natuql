@@ -8,7 +8,7 @@ import (
 
 var indexFileName = "natuql.index"
 
-func getIndexFilePath() (string, error) {
+func GetIndexFilePath() (string, error) {
 	configDirPath, err := getConfigDirectoryPath()
 	if err != nil {
 		return "", err

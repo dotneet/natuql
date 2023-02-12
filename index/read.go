@@ -5,7 +5,7 @@ import (
 )
 
 func ReadIndex() (string, error) {
-	indexFilePath, err := getIndexFilePath()
+	indexFilePath, err := GetIndexFilePath()
 	if err != nil {
 		return "", err
 	}

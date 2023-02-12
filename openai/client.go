@@ -9,18 +9,24 @@ import (
 )
 
 type Client struct {
-	ApiKey string
+	ApiKey      string
+	Model       string
+	MaxToken    int64
+	Temperature float64
 }
 
 func NewClient(apiKey string) *Client {
 	return &Client{
-		ApiKey: apiKey,
+		ApiKey:      apiKey,
+		Model:       "text-davinci-003",
+		MaxToken:    2000,
+		Temperature: 0.5,
 	}
 }
 
 func (client *Client) request(endpoint string, requestBody map[string]interface{}) (map[string]interface{}, error) {
 	if client.ApiKey == "" {
-		return nil, fmt.Errorf("API Keyが指定されていません。")
+		return nil, fmt.Errorf("ApiKey is not specified")
 	}
 
 	// Marshal Request Body to JSON
