@@ -1,0 +1,45 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with 'go test -c'
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Avoid committing log files
+log.txt
+*.log
+
+# Avoid committing database files
+*.db
+
+# Avoid committing editor backups
+*~
+
+# Go dependencies
+vendor/
+
+# Go build output
+*.a
+*.o
+
+# Avoid committing generated files and build artifacts
+_build/
+_dist/
+
+# Avoid committing OS-specific files
+.DS_Store
+*.swp
+*.swo
+*.swn
+
+# Avoid committing IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
