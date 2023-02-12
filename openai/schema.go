@@ -26,9 +26,9 @@ Add comments to the DB schema.
 
 Procedure:
  - Translate the table name in ${lang} and add it as the comment.
- - If the table name translated in ${lang} has similar words, add them too in ${lang}.
+ - Add some synonyms the table name translated in ${lang}.
  - Translate the column name in ${lang} and add it as the comment.
- - If the column name translated in ${lang} has similar words, add them too in ${lang}.
+ - Add some synonyms the column name translated in ${lang}.
 
 Input Example: """
 %s
@@ -48,6 +48,7 @@ Target: """
 	if err != nil {
 		return "", err
 	}
+	fmt.Printf("Token usage: %f\n", result.TotalTokens)
 
 	return result.ResponseText, nil
 }

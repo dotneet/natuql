@@ -42,7 +42,7 @@ func QueryCommand() *cobra.Command {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 				return
 			}
-			fmt.Println(strings.Join(rows, "\n"))
+			fmt.Printf("Result:\n%s\n\n", strings.Join(rows, "\n"))
 		},
 	}
 }
