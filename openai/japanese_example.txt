@@ -1,0 +1,16 @@
+create table drinks(
+    id integer,
+    -- ドリンク名
+    name varchar(255),
+    maker varchar(255) COMMENT "メーカー名"
+)
+=====
+-- ドリンクテーブル, 飲料テーブル, 飲み物テーブル
+create table drinks(
+    -- ドリンクのID, 飲料のID
+    id integer,
+    -- ドリンク名, ドリンクの名前, 飲料名, 飲料の名前
+    name varchar(255),
+    -- メーカー名
+    maker varchar(255) COMMENT "メーカー名"
+)

@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func CreateIndex(client *openai.Client, driverName string, connStr string) error {
+func CreateIndex(client *openai.Client, driverName string, connStr string, lang string) error {
 	schema, err := loadSchema(driverName, connStr)
 	if err != nil {
 		return err
@@ -19,7 +19,8 @@ func CreateIndex(client *openai.Client, driverName string, connStr string) error
 	separator := "/*SPECIAL_SEPARATOR*/"
 	for i := 0; i < len(chunks); i++ {
 		chunk := chunks[i]
-		commentedSchema, err := client.RefineSchema(strings.Join(chunk, ";\n"+separator+"\n"))
+		separatedChunkStr := strings.Join(chunk, ";\n"+separator+"\n")
+		commentedSchema, err := client.AnnotateSchema(separatedChunkStr, lang)
 		if err != nil {
 			return err
 		}

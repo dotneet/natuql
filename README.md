@@ -2,10 +2,13 @@ natuql automatically converts natural language inputs to sql and query to a data
 
 This tool is proof of concept. Do not use in production.
 
+## Features
+
+  - support language: Japanese, Chinese, French
+ 
 ## Limitation
 
  - support MySQL only.
- - support japanese language only.
 
 ## Install
 
@@ -56,7 +59,13 @@ A toml file must be stored in `$HOME/.config/natuql/config.toml'.
 apikey=your_secret_key
 dbconn=root:root@(tcp:127.0.0.1)/dbname
 
+# language is used for building index file.
+# supported language: Japanese, Chinese, French
+# Default: Japanese
+language=Japanese
+
 # context-tables-count is the number of tables to be used for query context.
 # if set larger value, the query will be more accurate, but it will make the query expensive.
+# Default: 8
 context-tables-count=8
 ```

@@ -1,0 +1,16 @@
+create table drinks(
+    id integer,
+    -- Nom de la boisson
+    name varchar (255),
+    maker varchar (255) COMMENT "nom du fabricant"
+)
+=====
+-- Table des boissons, boissons, boissons
+create table drinks(
+    -- ID de la boisson, ID de la boisson
+    id integer,
+    -- Nom de la boisson, nom de la boisson, nom de la boisson, nom de la boisson
+    name varchar (255),
+    -- Nom du fabricant
+    maker varchar (255) COMMENT "nom du fabricant"
+)

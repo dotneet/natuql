@@ -1,46 +1,82 @@
 package openai
 
-import "fmt"
-
-func (client *Client) RefineSchema(ddl string) (string, error) {
-	prompt := fmt.Sprintf(`
-DBスキーマにコメントを追加してください。
-
-追加するコメント:
- - テーブル名の日本語訳をコメントして
- - 日本語のテーブル名に別名や類似の名前が考えられる場合は追記して
- - カラム名の日本語訳をコメントして
- - 日本語のカラム名に別名や類似の名前が考えられる場合は追記して
-
-入力例: """
-create table drinks(
-  id integer,
-  -- ドリンク名
-  name varchar(255),
-  maker varchar(255) COMMENT "メーカー名"
+import (
+	_ "embed"
+	"fmt"
+	"strings"
 )
-"""
 
-出力例： """
--- ドリンクテーブル, 飲料テーブル, 飲み物テーブル
-create table drinks(
-  -- ドリンクのID, 飲料のID
-  id integer,
-  -- ドリンク名, ドリンクの名前, 飲料名, 飲料の名前
-  name varchar(255),
-  -- メーカー名
-  maker varchar(255) COMMENT "メーカー名"
-)
-"""
+type Example struct {
+	lang   string
+	input  string
+	output string
+}
 
-コメントを追加する対象: """
+func (client *Client) AnnotateSchema(ddl string, lang string) (string, error) {
+	example, err := client.CreateTranslatedExample(lang)
+	if err != nil {
+		return "", err
+	}
+	return client.annotateSchemaWithExample(ddl, example)
+}
+
+func (client *Client) annotateSchemaWithExample(ddl string, example Example) (string, error) {
+	promptSrc := `
+Add comments to the DB schema.
+
+Procedure:
+ - Translate the table name in ${lang} and add it as the comment.
+ - If the table name translated in ${lang} has similar words, add them too in ${lang}.
+ - Translate the column name in ${lang} and add it as the comment.
+ - If the column name translated in ${lang} has similar words, add them too in ${lang}.
+
+Input Example: """
 %s
 """
-`, ddl)
+
+Output Example： """
+%s
+"""
+
+Target: """
+%s
+"""
+`
+	replacedPromptSrc := strings.ReplaceAll(promptSrc, "${lang}", example.lang)
+	prompt := fmt.Sprintf(replacedPromptSrc, example.input, example.output, ddl)
 	result, err := client.Complete(prompt)
 	if err != nil {
 		return "", err
 	}
-	fmt.Printf("Token usage: %f\n", result.TotalTokens)
+
 	return result.ResponseText, nil
+}
+
+//go:embed japanese_example.txt
+var japaneseExample string
+
+//go:embed chinese_example.txt
+var chineseExample string
+
+//go:embed french_example.txt
+var frenchExample string
+
+func (client *Client) CreateTranslatedExample(lang string) (Example, error) {
+	exampleText := ""
+	switch strings.ToLower(lang) {
+	case "japanese":
+		exampleText = japaneseExample
+	case "chinese":
+		exampleText = chineseExample
+	case "french":
+		exampleText = frenchExample
+	default:
+		return Example{}, fmt.Errorf("%s is unsupported", lang)
+	}
+	examples := strings.Split(exampleText, "=====")
+	return Example{
+		lang:   lang,
+		input:  examples[0],
+		output: examples[1],
+	}, nil
 }

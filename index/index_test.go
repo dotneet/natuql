@@ -19,7 +19,7 @@ func TestSchemaIndex_GetRelatedTables(t *testing.T) {
 	index := &SchemaIndex{
 		Tables: []string{"abc", "abd", "acd", "bcd", "bce", "bde", "bca"},
 	}
-	relatedTables := index.GetRelatedTables("abc")
+	relatedTables := index.GetRelatedTables("abc", 5)
 	assert.Equal(t, []string{"abc", "bca", "bcd", "bde", "acd"}, relatedTables)
 }
 

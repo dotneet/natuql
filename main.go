@@ -22,6 +22,7 @@ func main() {
 	var indexCreateCmd = command.IndexCreateCmd()
 	var indexRemoveCmd = command.IndexRemoveCmd()
 	var queryCmd = command.QueryCommand()
+	viper.SetDefault("language", "Japanese")
 	cobra.OnInitialize(func() {
 		viper.SetDefault("apikey", os.Getenv("OPENAI_API_KEY"))
 		viper.BindPFlag("apikey", rootCmd.PersistentFlags().Lookup("apikey"))
@@ -42,6 +43,11 @@ func main() {
 		return
 	}
 	viper.AddConfigPath(configDirPath)
-	viper.ReadInConfig()
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			fmt.Fprint(os.Stderr, err)
+			return
+		}
+	}
 	rootCmd.Execute()
 }

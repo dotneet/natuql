@@ -1,0 +1,16 @@
+create table drinks(
+    id integer,
+    -- 饮料名称
+    name varchar(255),
+    maker varchar(255) COMMENT "制造商名称"
+)
+=====
+-- 饮料表，饮料表，饮料表
+create table drinks(
+    -- 饮料ID，饮料ID
+    id integer,
+    -- 饮料名称，饮料名称，饮料名称，饮料名称
+    name varchar(255),
+    -- 制造商名称
+    maker varchar(255) COMMENT "制造商名称"
+)
