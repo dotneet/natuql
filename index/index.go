@@ -45,11 +45,11 @@ type SortableItem struct {
 	table      *string
 }
 
-func (schemaIndex *SchemaIndex) GetRelatedTablesString(query string) string {
-	return strings.Join(schemaIndex.GetRelatedTables(query), ";")
+func (schemaIndex *SchemaIndex) GetRelatedTablesString(query string, topK int) string {
+	return strings.Join(schemaIndex.GetRelatedTables(query, topK), ";")
 }
 
-func (schemaIndex *SchemaIndex) GetRelatedTables(query string) []string {
+func (schemaIndex *SchemaIndex) GetRelatedTables(query string, topK int) []string {
 	var items []SortableItem
 	for i := 0; i < len(schemaIndex.Tables); i++ {
 		table := schemaIndex.Tables[i]
@@ -60,8 +60,7 @@ func (schemaIndex *SchemaIndex) GetRelatedTables(query string) []string {
 		return items[i].similarity > items[j].similarity
 	})
 
-	// loop items
-	items = items[0:5]
+	items = items[0:topK]
 	var result []string
 	for i := 0; i < len(items); i++ {
 		item := items[i]

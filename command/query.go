@@ -26,7 +26,7 @@ func QueryCommand() *cobra.Command {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 				return
 			}
-			context := schemaIndex.GetRelatedTablesString(query)
+			context := schemaIndex.GetRelatedTablesString(query, 8)
 			sql, err := client.CreateSql(context, query)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)

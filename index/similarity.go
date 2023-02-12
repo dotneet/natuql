@@ -65,11 +65,3 @@ func CalculateSimilarity(s1 string, s2 string) float64 {
 
 	return dotProduct / (magnitude1 * magnitude2)
 }
-
-func bytesToFloat64(ba []byte) []float64 {
-	f := make([]float64, len(ba))
-	for i := range f {
-		f[i] = float64(ba[i])
-	}
-	return f
-}
