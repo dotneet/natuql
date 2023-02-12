@@ -26,6 +26,8 @@ This is expensive, consuming roughly 2000-4000 tokens per 5 tables.
 export OPENAI_API_KEY=YOUR_API_KEY
 export DATABASE_CONNECTION="root:root@tcp(127.0.0.1:3306)/yourdb"
 natuql index-create
+
+natuql query "count users over 30 years old"
 natuql query "2022年の売上件数を取得して。"
 ```
 
@@ -59,7 +61,7 @@ dbconn=root:root@(tcp:127.0.0.1)/dbname
 
 # language is used for building index file.
 # supported language: English, Japanese, Chinese, French
-# Default: Japanese
+# Default: Auto detection by environment variables.
 language=Japanese
 
 # context-tables-count is the number of tables to be used for query context.

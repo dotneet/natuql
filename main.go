@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 	var indexCreateCmd = command.IndexCreateCmd()
 	var indexRemoveCmd = command.IndexRemoveCmd()
 	var queryCmd = command.QueryCommand()
-	viper.SetDefault("language", "Japanese")
+	viper.SetDefault("language", detectLanguage())
 	cobra.OnInitialize(func() {
 		viper.SetDefault("apikey", os.Getenv("OPENAI_API_KEY"))
 		viper.BindPFlag("apikey", rootCmd.PersistentFlags().Lookup("apikey"))
@@ -50,4 +51,25 @@ func main() {
 		}
 	}
 	rootCmd.Execute()
+}
+
+func detectLanguage() string {
+	langCode := os.Getenv("LANG")
+	if langCode == "" {
+		langCode = os.Getenv("LC_CTYPE")
+	}
+	langParts := strings.Split(langCode, "_")
+	country := langParts[0]
+	switch strings.ToLower(country) {
+	case "ja":
+		return "Japanese"
+	case "en":
+		return "English"
+	case "fr":
+		return "French"
+	case "zh":
+		return "Chinese"
+	default:
+		return "English"
+	}
 }
