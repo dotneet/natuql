@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/dotneet/natuql/openai"
+	"github.com/dotneet/natuql/path"
 	"strings"
 )
 
@@ -30,7 +31,7 @@ func CreateIndex(client *openai.Client, driverName string, connStr string) error
 		Tables: commentedSchemas,
 	}
 
-	indexFilePath, err := GetIndexFilePath()
+	indexFilePath, err := path.GetIndexFilePath()
 	if err != nil {
 		return err
 	}

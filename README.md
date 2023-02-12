@@ -36,3 +36,27 @@ If the DB schema is changed, the indexes must be rebuilt.
 natuql index-remove
 natuql index-create
 ```
+
+## Configuration
+
+### Environment Variables
+
+| Name | Description | Default |
+| --- | --- |---------|
+| OPENAI_API_KEY | OpenAI API Key | empty   |
+| DATABASE_CONNECTION | Database connection string | empty   |
+
+
+### Toml
+
+A toml file must be stored in `$HOME/.config/natuql/config.toml'.
+
+```toml
+# Example
+apikey=your_secret_key
+dbconn=root:root@(tcp:127.0.0.1)/dbname
+
+# context-tables-count is the number of tables to be used for query context.
+# if set larger value, the query will be more accurate, but it will make the query expensive.
+context-tables-count=8
+```

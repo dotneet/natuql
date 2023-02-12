@@ -1,11 +1,12 @@
 package index
 
 import (
+	"github.com/dotneet/natuql/path"
 	"os"
 )
 
 func ReadIndex() (string, error) {
-	indexFilePath, err := GetIndexFilePath()
+	indexFilePath, err := path.GetIndexFilePath()
 	if err != nil {
 		return "", err
 	}

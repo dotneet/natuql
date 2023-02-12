@@ -17,8 +17,6 @@ func QueryCommand() *cobra.Command {
 		Short:   "query to ChatGPT",
 		Example: "natuql query \"2022年に一番売れた商品とその合計価格を出力して。\"",
 		Run: func(cmd *cobra.Command, args []string) {
-			apiKey := viper.GetString("apikey")
-			client := openai.NewClient(apiKey)
 			query := strings.Join(args, " ")
 			schemaIndex, err := index.LoadSchemaIndexFromFile()
 			if err != nil {
@@ -26,12 +24,17 @@ func QueryCommand() *cobra.Command {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 				return
 			}
-			context := schemaIndex.GetRelatedTablesString(query, 8)
+
+			apiKey := viper.GetString("apikey")
+			client := openai.NewClient(apiKey)
+			contextTablesCount := viper.GetInt("context-tables-count")
+			context := schemaIndex.GetRelatedTablesString(query, contextTablesCount)
 			sql, err := client.CreateSql(context, query)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 				return
 			}
+
 			fmt.Printf("SQL: %s\n", sql)
 			connStr := viper.GetString("dbconn")
 			rows, err := executeSql("mysql", connStr, sql)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/dotneet/natuql/index"
 	"github.com/dotneet/natuql/openai"
+	"github.com/dotneet/natuql/path"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -24,7 +25,7 @@ func IndexCreateCmd() *cobra.Command {
 				fmt.Fprintln(os.Stderr, "error: %v", err)
 				return
 			}
-			path, err := index.GetIndexFilePath()
+			path, err := path.GetIndexFilePath()
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "error: %v", err)
 				return

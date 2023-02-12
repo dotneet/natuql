@@ -2,11 +2,12 @@ package index
 
 import (
 	"fmt"
+	"github.com/dotneet/natuql/path"
 	"os"
 )
 
 func RemoveIndex() error {
-	indexFilePath, err := GetIndexFilePath()
+	indexFilePath, err := path.GetIndexFilePath()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

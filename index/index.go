@@ -2,6 +2,7 @@ package index
 
 import (
 	"encoding/json"
+	path2 "github.com/dotneet/natuql/path"
 	"os"
 	"sort"
 	"strings"
@@ -70,7 +71,7 @@ func (schemaIndex *SchemaIndex) GetRelatedTables(query string, topK int) []strin
 }
 
 func LoadSchemaIndexFromFile() (*SchemaIndex, error) {
-	path, err := GetIndexFilePath()
+	path, err := path2.GetIndexFilePath()
 	if err != nil {
 		return nil, err
 	}

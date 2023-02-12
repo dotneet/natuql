@@ -1,4 +1,4 @@
-package index
+package path
 
 import (
 	"fmt"
@@ -6,18 +6,19 @@ import (
 	"os/user"
 )
 
-var indexFileName = "natuql.index"
+var ConfigFileName = "config"
+var IndexFileName = "natuql.index"
 
 func GetIndexFilePath() (string, error) {
-	configDirPath, err := getConfigDirectoryPath()
+	configDirPath, err := GetConfigDirectoryPath()
 	if err != nil {
 		return "", err
 	}
-	return configDirPath + "/" + indexFileName, nil
+	return configDirPath + "/" + IndexFileName, nil
 }
 
 // get config directory and create if not exists
-func getConfigDirectoryPath() (string, error) {
+func GetConfigDirectoryPath() (string, error) {
 	usr, err := user.Current()
 	if err != nil {
 		fmt.Println(err)

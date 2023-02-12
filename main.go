@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/dotneet/natuql/command"
+	"github.com/dotneet/natuql/path"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -25,11 +27,21 @@ func main() {
 		viper.BindPFlag("apikey", rootCmd.PersistentFlags().Lookup("apikey"))
 		viper.SetDefault("dbconn", os.Getenv("DATABASE_CONNECTION"))
 		viper.BindPFlag("dbconn", rootCmd.PersistentFlags().Lookup("dbconn"))
+		viper.SetDefault("context-tables-count", 8)
 	})
 	rootCmd.PersistentFlags().String("apikey", "", "OpenAPI API Secret Key")
 	rootCmd.PersistentFlags().String("dbconn", "", "Database Connection String")
 	rootCmd.AddCommand(queryCmd)
 	rootCmd.AddCommand(indexCreateCmd)
 	rootCmd.AddCommand(indexRemoveCmd)
+
+	viper.SetConfigName("config")
+	configDirPath, err := path.GetConfigDirectoryPath()
+	if err != nil {
+		fmt.Fprint(os.Stderr, err)
+		return
+	}
+	viper.AddConfigPath(configDirPath)
+	viper.ReadInConfig()
 	rootCmd.Execute()
 }
