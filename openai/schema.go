@@ -13,7 +13,7 @@ type Example struct {
 }
 
 func (client *Client) AnnotateSchema(ddl string, lang string) (string, error) {
-	example, err := client.CreateTranslatedExample(lang)
+	example, err := client.createExample(lang)
 	if err != nil {
 		return "", err
 	}
@@ -61,7 +61,7 @@ var chineseExample string
 //go:embed french_example.txt
 var frenchExample string
 
-func (client *Client) CreateTranslatedExample(lang string) (Example, error) {
+func (client *Client) createExample(lang string) (Example, error) {
 	exampleText := ""
 	switch strings.ToLower(lang) {
 	case "japanese":
