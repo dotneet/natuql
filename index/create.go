@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/dotneet/natuql/openai"
-	"os"
 	"strings"
 )
 
@@ -13,40 +12,49 @@ func CreateIndex(client *openai.Client, driverName string, connStr string) error
 	if err != nil {
 		return err
 	}
-	commentedSchema, err := client.RefinementSchema(schema)
-	if err != nil {
-		return err
+
+	chunks := schema.Chunks(5)
+	var commentedSchemas []string
+	separator := "/*SPECIAL_SEPARATOR*/"
+	for i := 0; i < len(chunks); i++ {
+		chunk := chunks[i]
+		commentedSchema, err := client.RefineSchema(strings.Join(chunk, ";\n"+separator+"\n"))
+		if err != nil {
+			return err
+		}
+		schemas := strings.Split(commentedSchema, separator)
+		commentedSchemas = append(commentedSchemas, schemas...)
+	}
+
+	schemaIndex := &SchemaIndex{
+		Tables: commentedSchemas,
 	}
 
 	indexFilePath, err := GetIndexFilePath()
 	if err != nil {
 		return err
 	}
-	file, err := os.Create(indexFilePath)
-	defer file.Close()
-	_, err = file.WriteString(commentedSchema)
-	if err != nil {
-		return err
-	}
+	schemaIndex.WriteAsJson(indexFilePath)
 	return nil
 }
 
-func loadSchema(driverName string, connStr string) (string, error) {
+func loadSchema(driverName string, connStr string) (*Schema, error) {
 	db, err := sql.Open(driverName, connStr)
 	if err != nil {
-		return "", fmt.Errorf("Error opening database:", err)
+		return nil, fmt.Errorf("error opening database. %v", err)
 	}
 	defer db.Close()
 	tables, err := listTables(db)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	ddls, err := listDdls(db, tables)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	ddl := fmt.Sprintln(strings.Join(ddls, ";\n"))
-	return ddl, nil
+	return &Schema{
+		tables: ddls,
+	}, nil
 }
 
 func listTables(db *sql.DB) ([]string, error) {

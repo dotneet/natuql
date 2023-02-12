@@ -20,13 +20,14 @@ func QueryCommand() *cobra.Command {
 			apiKey := viper.GetString("apikey")
 			client := openai.NewClient(apiKey)
 			query := strings.Join(args, " ")
-			indexStr, err := index.ReadIndex()
+			schemaIndex, err := index.LoadSchemaIndexFromFile()
 			if err != nil {
 				// print error to stderr
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 				return
 			}
-			sql, err := client.CreateSql(indexStr, query)
+			context := schemaIndex.GetRelatedTablesString(query)
+			sql, err := client.CreateSql(context, query)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 				return

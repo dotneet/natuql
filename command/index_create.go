@@ -30,7 +30,7 @@ func IndexCreateCmd() *cobra.Command {
 				return
 			}
 			fmt.Println("index has been created.")
-			fmt.Println("location: %s", path)
+			fmt.Printf("location: %s\n", path)
 		},
 	}
 }

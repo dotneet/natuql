@@ -2,7 +2,7 @@ package openai
 
 import "fmt"
 
-func (client *Client) RefinementSchema(ddl string) (string, error) {
+func (client *Client) RefineSchema(ddl string) (string, error) {
 	prompt := fmt.Sprintf(`
 DBスキーマにコメントを追加してください。
 
@@ -41,5 +41,6 @@ create table drinks(
 	if err != nil {
 		return "", err
 	}
+	fmt.Printf("Token usage: %f\n", result.TotalTokens)
 	return result.ResponseText, nil
 }

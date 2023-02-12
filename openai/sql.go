@@ -14,18 +14,19 @@ DatabaseSchema: """
 """
 
 Example of Question and SQL: """
-Q:table から condition を抜き出して fileds 取得して。
+Natural:table から condition を抜き出して fileds 取得して。
 SQL:SELECT ${fields} FROM ${table} WHERE ${condition}
 """
 ---------------------
 Given the context information and not prior knowledge,
-Q:%s
+Natural:%s
 SQL:
 `, context, query)
 	result, err := client.Complete(prompt)
 	if err != nil {
 		return "", err
 	}
+	fmt.Printf("Token usage: %f\n", result.TotalTokens)
 	responseText := result.ResponseText
 	start := "SQL:"
 	idx := strings.Index(responseText, start)
