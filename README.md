@@ -26,9 +26,26 @@ This is expensive, consuming roughly 2000-4000 tokens per 5 tables.
 export OPENAI_API_KEY=YOUR_API_KEY
 export DATABASE_CONNECTION="root:root@tcp(127.0.0.1:3306)/yourdb"
 natuql index-create
+```
 
+```
 natuql query "count users over 30 years old"
-natuql query "2022年の売上件数を取得して。"
+
+Output:
+Token usage: 1103.000000
+SQL: SELECT COUNT(*) FROM users INNER JOIN profiles ON users.id = profiles.user_id WHERE profiles.age > 30;
+Result:
+4
+```
+
+```
+natuql query "2022年の販売件数を取得して。"
+
+Output:
+Token usage: 1808.000000
+SQL: SELECT COUNT(*) FROM sales WHERE YEAR(sold_at) = 2022;
+Result:
+2
 ```
 
 ### Rebuilding Index 
