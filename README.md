@@ -5,7 +5,7 @@ This tool is a proof of concept. Do not use in production.
 ## Features
 
  - query databases using natural language.
- - supported language: Japanese, Chinese, French
+ - supported language: English, Japanese, Chinese, French
  - supported database: MySQL only
  
 ## Install
@@ -58,7 +58,7 @@ apikey=your_secret_key
 dbconn=root:root@(tcp:127.0.0.1)/dbname
 
 # language is used for building index file.
-# supported language: Japanese, Chinese, French
+# supported language: English, Japanese, Chinese, French
 # Default: Japanese
 language=Japanese
 

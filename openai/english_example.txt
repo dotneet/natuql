@@ -1,0 +1,16 @@
+create table drinks(
+    id integer,
+    -- drink name
+    name varchar(255),
+    maker varchar(255) COMMENT "maker name"
+)
+=====
+-- drinks table, drink, beverage
+create table drinks(
+    -- drink-id
+    id integer,
+    -- drink-name
+    name varchar(255),
+    -- vendor, merchant
+    maker varchar(255) COMMENT "maker name"
+)

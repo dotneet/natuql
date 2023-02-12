@@ -56,6 +56,9 @@ Target: """
 //go:embed japanese_example.txt
 var japaneseExample string
 
+//go:embed english_example.txt
+var englishExample string
+
 //go:embed chinese_example.txt
 var chineseExample string
 
@@ -71,6 +74,8 @@ func (client *Client) createExample(lang string) (Example, error) {
 		exampleText = chineseExample
 	case "french":
 		exampleText = frenchExample
+	case "english":
+		exampleText = englishExample
 	default:
 		return Example{}, fmt.Errorf("%s is unsupported", lang)
 	}
