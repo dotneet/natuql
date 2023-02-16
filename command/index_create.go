@@ -17,10 +17,11 @@ func IndexCreateCmd() *cobra.Command {
 		Example: "natuql index-create",
 		Run: func(cmd *cobra.Command, args []string) {
 			driverName := "mysql"
+			model := viper.GetString("model")
 			lang := viper.GetString("language")
 			connStr := viper.GetString("dbconn")
 			apiKey := viper.GetString("apikey")
-			client := openai.NewClient(apiKey)
+			client := openai.NewClient(apiKey, model)
 			path, err := path.GetIndexFilePath()
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "error: %v", err)

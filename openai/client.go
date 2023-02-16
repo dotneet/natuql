@@ -15,10 +15,10 @@ type Client struct {
 	Temperature float64
 }
 
-func NewClient(apiKey string) *Client {
+func NewClient(apiKey string, model string) *Client {
 	return &Client{
 		ApiKey:      apiKey,
-		Model:       "text-davinci-003",
+		Model:       model,
 		MaxToken:    2000,
 		Temperature: 0.5,
 	}

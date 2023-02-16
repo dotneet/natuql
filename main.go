@@ -24,7 +24,13 @@ func main() {
 	var indexRemoveCmd = command.IndexRemoveCmd()
 	var queryCmd = command.QueryCommand()
 	viper.SetDefault("language", detectLanguage())
+	if model, has := os.LookupEnv("OPENAI_MODEL"); has {
+		viper.SetDefault("model", model)
+	} else {
+		viper.SetDefault("model", "text-davinci-003")
+	}
 	cobra.OnInitialize(func() {
+		viper.BindPFlag("model", rootCmd.PersistentFlags().Lookup("model"))
 		viper.SetDefault("apikey", os.Getenv("OPENAI_API_KEY"))
 		viper.BindPFlag("apikey", rootCmd.PersistentFlags().Lookup("apikey"))
 		viper.SetDefault("dbconn", os.Getenv("DATABASE_CONNECTION"))
